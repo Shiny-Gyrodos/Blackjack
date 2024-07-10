@@ -9,7 +9,19 @@ class Deck
 
 
     public int Draw() => deck.Pop();
+    public int Peek() => deck.Peek();
 
+
+
+    private static void ShuffleCardsIntoDeck(List<int> allCards, Stack<int> deck)
+    {
+        for (int i = 0; i < allCards.Count; i++)
+        {
+            int tempCard = allCards[rng.Next(0, allCards.Count)];
+            allCards.Remove(tempCard);
+            deck.Push(tempCard);
+        }
+    }
 
 
     public Deck()
@@ -27,17 +39,5 @@ class Deck
         }
 
         ShuffleCardsIntoDeck(allCards, deck);
-    }
-
-
-
-    private static void ShuffleCardsIntoDeck(List<int> allCards, Stack<int> deck)
-    {
-        for (int i = 0; i < allCards.Count; i++)
-        {
-            int tempCard = allCards[rng.Next(0, allCards.Count)];
-            allCards.Remove(tempCard);
-            deck.Push(tempCard);
-        }
     }
 }
