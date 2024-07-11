@@ -2,7 +2,7 @@ using System.Reflection.Metadata;
 struct Hand()
 {
     private int index = 0;
-    private int[] cards = new int[5];
+    public int[] cards = new int[5];
     public int Total => cards.Sum();
     public void AddCard(int value) => cards[index++] = value;
 }
@@ -20,7 +20,7 @@ class Game
 
         while (playerChoice != "hit" && playerChoice != "call")
         {
-            playerChoice = Console.ReadLine().ToLower() ?? "null reference";
+            playerChoice = ReadLine().ToLower() ?? "null reference";
         }
 
         return playerChoice;
@@ -30,7 +30,7 @@ class Game
 
     static void Call(Hand playerHand, Deck deck)
     {
-        Console.WriteLine("The dealer will now draw cards.");
+        WriteLine("The dealer will now draw cards.");
         Hand dealerHand = new();
         string message = "YOU LOSE. Dealer is closer.";
 
@@ -38,7 +38,7 @@ class Game
         {
             try
             {
-                Console.Write(Hit(dealerHand, deck) + " ");
+                Write(Hit(dealerHand, deck) + " ");
             }
             catch (IndexOutOfRangeException)
             {
@@ -47,7 +47,7 @@ class Game
             }
         }
 
-        Console.WriteLine(message);
+        WriteLine(message);
     }
 
 
