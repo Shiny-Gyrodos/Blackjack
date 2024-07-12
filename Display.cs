@@ -1,15 +1,15 @@
 abstract class Display
 {
-    static void Refresh(Hand hand, bool gameCalled)
+    // Dynamic object will never be used unless the dealer's hand has been instantiated, therefore the potential of throwing errors by using it is impossible.
+    public static void Refresh(ref Hand playerHand, ref Hand dealerHand) 
     {
         Clear();
-        WriteLine(gameCalled ? "Blackjack |" : "Blackjack | HIT or CALL?");
-        Spaces();
-        WriteLine($"Your total: {hand.Total} | Your cards: {GetCard(hand, 0)}     {GetCard(hand, 1)}     {GetCard(hand, 2)}     {GetCard(hand, 3)}     {GetCard(hand, 4)}");
-        Spaces();
-        WriteLine(gameCalled ? $"Dealer total: {hand.Total} | Dealer cards: {GetCard(hand, 0)}     {GetCard(hand, 1)}     {GetCard(hand, 2)}     {GetCard(hand, 3)}     {GetCard(hand, 4)}\n{new string('-', 20)}" : "");
+        WriteLine("Blackjack | HIT or CALL?");
+        WriteLine(new string('-', 75));
+        WriteLine($"Your total: {playerHand.Total} | Your cards: {GetCard(playerHand, 0)}     {GetCard(playerHand, 1)}     {GetCard(playerHand, 2)}     {GetCard(playerHand, 3)}     {GetCard(playerHand, 4)}");
+        WriteLine(new string('-', 75));
+        WriteLine($"Dealer total: {dealerHand.Total} | Dealer cards: {GetCard(dealerHand, 0)}     {GetCard(dealerHand, 1)}     {GetCard(dealerHand, 2)}     {GetCard(dealerHand, 3)}     {GetCard(dealerHand, 4)}\n{new string('-', 75)}");
 
         static string GetCard(Hand hand, int index) => hand.cards[index] == 0 ? " " : hand.cards[index].ToString();
-        static void Spaces() => WriteLine(new string('-', 20));
     }
 }
