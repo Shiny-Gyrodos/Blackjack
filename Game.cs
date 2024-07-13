@@ -1,44 +1,34 @@
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
-struct Hand()
-{
-    private int index = 0;
-    public int[] cards = new int[5];
-    public int Total => cards.Sum();
-    public void AddCard(int value) => cards[index++] = value;
-}
-
-
-
-class Game
+using System.Security.Cryptography.X509Certificates;
+static class Game
 {
     private const int blackjack = 21;
 
 
 
-    public static void Start(Deck deck)
+    public static void Start()
     {
+        Deck deck = new();
         Hand playerHand = new();
         Hand dealerHand = new();
 
-        while (playerHand.cards[4] == 0) // Needs new condition
-        {
-            Display.Refresh(ref playerHand, ref dealerHand);
+        Display.Refresh(ref playerHand, ref dealerHand);
 
+        while (!CheckGameEnded(playerHand.Total, dealerHand.Total))
+        {
             switch (GetPlayerChoice())
             {
                 case "hit":
                     Hit(ref playerHand, deck);
-                    if (playerHand.cards[4] != 0 && playerHand.Total < 21) Call(ref playerHand, ref dealerHand, deck);
                     break;
                 case "call":
                     Call(ref playerHand, ref dealerHand, deck);
                     break;
             }
 
-            if (playerHand.Total >= blackjack) WriteLine("YOU LOSE. You went over 21!");
-            else if (playerHand.Total == blackjack) WriteLine("YOU WIN! You got to 21 exactly!");
-        }
+            Display.Refresh(ref playerHand, ref dealerHand);
+        }   
     }
 
 
@@ -62,35 +52,78 @@ class Game
         WriteLine("\nThe dealer will now draw cards.");
         Sleep(3000);
         Display.Refresh(ref playerHand, ref dealerHand);
-        string message = "YOU LOSE. Dealer is closer.";
 
         while (dealerHand.Total < playerHand.Total)
         {
             try
             {
-                Hit(ref dealerHand, deck, true);
+                Hit(ref dealerHand, deck);
             }
-            catch (IndexOutOfRangeException)
+            catch (IndexOutOfRangeException) // Likely not the best solution, but it works.
             {
-                message = "YOU WIN! Dealer drew five cards and is lower.";
                 break;
             }
 
             Display.Refresh(ref playerHand, ref dealerHand);
             Sleep(1000);
         }
-
-        message = dealerHand.Total > blackjack ? "YOU WIN! Dealer busts." : message;
-        WriteLine("\n" + message);
     }
 
 
 
-    // Returns the card drawn for display.
-    private static int Hit(ref Hand hand, Deck deck, bool gameCalled = false)
+    private static void Hit(ref Hand hand, Deck deck)
     {
         int cardDrawn = deck.Draw();
         hand.AddCard(cardDrawn == 11 && hand.Total + 11 > blackjack ? cardDrawn - 10 : cardDrawn);
-        return cardDrawn;
+    }
+
+
+
+    // Ugly, but I can't think of a better solution.
+    static bool CheckGameEnded(int playerTotal, int dealerTotal)
+    {
+        #region Win Conditions
+
+        if (playerTotal == blackjack)
+        {
+            WriteLine("\nYOU WIN! You got 21 exactly.");
+            return true;
+        }
+        if (playerTotal < blackjack && playerTotal > dealerTotal)
+        {
+            WriteLine("\nYOU WIN! Dealer total is less and reached card limit.");
+            return true;
+        }
+        if (dealerTotal > blackjack)
+        {
+            WriteLine("\nYOU WIN! Dealer busted.");
+            return true;
+        }
+
+        #endregion
+
+        #region Lose Conditions
+
+        if (playerTotal > blackjack)
+        {
+            WriteLine("\nYOU LOSE. You busted!");
+            return true;
+        }
+        if (dealerTotal <= blackjack && dealerTotal > playerTotal)
+        {
+            WriteLine("\nYOU LOSE. Dealer is closer!");
+            return true;
+        }
+
+        #endregion
+
+        // Draw condition (rare)
+        if (playerTotal < blackjack && playerTotal == dealerTotal)
+        {
+            WriteLine("DRAW. You and the dealer have the same total.");
+            return true;
+        }
+
+        return false;
     }
 }
