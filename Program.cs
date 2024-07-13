@@ -14,7 +14,7 @@ namespace MyApp
             Sleep(5000);
 
             Clear();
-            WriteLine("Care to play again? Type 'yes' if so.");
+            WriteLine("Care to play again? Enter 'yes' if so.");
             string playerChoice = ReadLine().ToLower() ?? "no";
 
             if (playerChoice == "yes")
