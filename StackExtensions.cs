@@ -4,7 +4,7 @@ static class StackExtensions // Contained extension methods generic because why 
 
 
 
-    public static void PushRange<T>(this Stack<T> stack, IEnumerable<T> valuesToAdd)
+    public static void PushRange<T>(this Stack<T> stack, params T[] valuesToAdd)
     {
         foreach (T value in valuesToAdd)
         {
