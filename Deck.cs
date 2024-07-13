@@ -12,7 +12,7 @@ class Deck
 
     public Deck()
     {
-        for (int i = 1; i <= 11; i++)
+        for (int i = 2; i <= 11; i++)
         {
             if (i == 10)
             {
