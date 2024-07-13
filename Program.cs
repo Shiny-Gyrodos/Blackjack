@@ -12,10 +12,12 @@ namespace MyApp
             Clear();
             Game.Start();
             Sleep(5000);
+
             Clear();
             WriteLine("Care to play again? Type 'yes' if so.");
+            string playerChoice = ReadLine().ToLower() ?? "no";
 
-            if (ReadLine().ToLower() == "yes")
+            if (playerChoice == "yes")
             {
                 Main();
             }
