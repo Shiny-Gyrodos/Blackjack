@@ -1,7 +1,7 @@
 static class Display
 {
     // Dynamic object will never be used unless the dealer's hand has been instantiated, therefore the potential of throwing errors by using it is impossible.
-    public static void Refresh(ref Hand playerHand, ref Hand dealerHand) 
+    public static void Refresh( Hand playerHand,  Hand dealerHand) 
     {
         Clear();
         WriteLine("Blackjack | HIT or CALL?");

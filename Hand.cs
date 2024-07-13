@@ -1,4 +1,4 @@
-struct Hand()
+class Hand()
 {
     private int index = 0;
     public int[] cards = new int[5];

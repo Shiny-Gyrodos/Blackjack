@@ -13,21 +13,21 @@ static class Game
         Hand playerHand = new();
         Hand dealerHand = new();
 
-        Display.Refresh(ref playerHand, ref dealerHand);
+        Display.Refresh(playerHand, dealerHand);
 
         while (!CheckGameEnded(playerHand.Total, dealerHand.Total))
         {
             switch (GetPlayerChoice())
             {
                 case "hit":
-                    Hit(ref playerHand, deck);
+                    Hit(playerHand, deck);
                     break;
                 case "call":
-                    Call(ref playerHand, ref dealerHand, deck);
+                    Call(playerHand, dealerHand, deck);
                     break;
             }
 
-            Display.Refresh(ref playerHand, ref dealerHand);
+            Display.Refresh(playerHand, dealerHand);
         }   
     }
 
@@ -47,31 +47,31 @@ static class Game
 
 
 
-    private static void Call(ref Hand playerHand, ref Hand dealerHand, Deck deck)
+    private static void Call(Hand playerHand, Hand dealerHand, Deck deck)
     {
         WriteLine("\nThe dealer will now draw cards.");
         Sleep(3000);
-        Display.Refresh(ref playerHand, ref dealerHand);
+        Display.Refresh(playerHand, dealerHand);
 
         while (dealerHand.Total < playerHand.Total)
         {
             try
             {
-                Hit(ref dealerHand, deck);
+                Hit(dealerHand, deck);
             }
             catch (IndexOutOfRangeException) // Likely not the best solution, but it works.
             {
                 break;
             }
 
-            Display.Refresh(ref playerHand, ref dealerHand);
+            Display.Refresh(playerHand, dealerHand);
             Sleep(1000);
         }
     }
 
 
 
-    private static void Hit(ref Hand hand, Deck deck)
+    private static void Hit(Hand hand, Deck deck)
     {
         int cardDrawn = deck.Draw();
         hand.AddCard(cardDrawn == 11 && hand.Total + 11 > blackjack ? cardDrawn - 10 : cardDrawn);
@@ -89,7 +89,7 @@ static class Game
             WriteLine("\nYOU WIN! You got 21 exactly.");
             return true;
         }
-        if (playerTotal < blackjack && playerTotal > dealerTotal)
+        if (playerTotal < blackjack && playerTotal > dealerTotal && dealerTotal != 0)
         {
             WriteLine("\nYOU WIN! Dealer total is less and reached card limit.");
             return true;
