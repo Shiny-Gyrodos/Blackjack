@@ -16,11 +16,11 @@ class Deck
         {
             if (i == 10)
             {
-                deck.PushRange([i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i]);
+                deck.PushRange(i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i);
             }
             else
             {   
-                deck.PushRange([i, i, i, i]);
+                deck.PushRange(i, i, i, i);
             }
         }
 
