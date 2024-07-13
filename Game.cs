@@ -118,7 +118,7 @@ static class Game
         #endregion
 
         // Draw condition (rare)
-        if (playerTotal < blackjack && playerTotal == dealerTotal)
+        if (playerTotal < blackjack && playerTotal != 0 && playerTotal == dealerTotal)
         {
             WriteLine("DRAW. You and the dealer have the same total.");
             return true;
