@@ -6,20 +6,20 @@ namespace MyApp
     {
         static void Main()
         {
-            Clear();
-            WriteLine("Ready to play some Blackjack?\n\nPress any key to continue.");
-            ReadKey();
-            Clear();
-            Game.Start();
-            Sleep(5000);
+            string playerChoice = "yes";
 
-            Clear();
-            WriteLine("Care to play again? Enter 'yes' if so.");
-            string playerChoice = ReadLine().ToLower() ?? "no";
-
-            if (playerChoice == "yes")
+            while (playerChoice == "yes")
             {
-                Main();
+                Clear();
+                WriteLine("Ready to play some Blackjack?\n\nPress any key to continue.");
+                ReadKey();
+                Clear();
+                Game.Start();
+                Sleep(5000);
+
+                Clear();
+                WriteLine("Care to play again? Enter 'yes' if so.");
+                playerChoice = ReadLine().ToLower() ?? "no";
             }
         }
     }
