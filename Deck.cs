@@ -2,26 +2,12 @@ using System.Collections.Immutable;
 
 class Deck
 {
-    private static readonly Random rng = new();
-    private readonly List<int> allCards = [];
+    public int Draw() => deck.Pop();
+
+
+
     private Stack<int> deck = [];
 
-
-
-    public int Draw() => deck.Pop();
-    public int Peek() => deck.Peek();
-
-
-
-    private static void ShuffleCardsIntoDeck(List<int> allCards, Stack<int> deck)
-    {
-        for (int i = 0; i < allCards.Count; i++)
-        {
-            int tempCard = allCards[rng.Next(0, allCards.Count)];
-            allCards.Remove(tempCard);
-            deck.Push(tempCard);
-        }
-    }
 
 
     public Deck()
@@ -30,14 +16,46 @@ class Deck
         {
             if (i == 10)
             {
-                allCards.AddRange([i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i]);
+                deck.PushRange([i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i]);
             }
             else
             {   
-                allCards.AddRange([i, i, i, i]);
+                deck.PushRange([i, i, i, i]);
             }
         }
 
-        ShuffleCardsIntoDeck(allCards, deck);
+        deck.Shuffle();
+    }
+}
+
+
+
+static class StackExtensions // Contained extension methods generic because why not.
+{
+    private static readonly Random rng = new();
+
+
+
+    public static void PushRange<T>(this Stack<T> stack, IEnumerable<T> valuesToAdd)
+    {
+        foreach (T value in valuesToAdd)
+        {
+            stack.Push(value);
+        }
+    }
+
+
+    public static Stack<T> Shuffle<T>(this Stack<T> stack)
+    {
+        T[] array = [.. stack];
+        rng.Shuffle(array);
+        stack.Clear();
+
+        foreach (T item in array)
+        {
+            stack.Push(item);
+        }
+
+        return stack;
     }
 }
