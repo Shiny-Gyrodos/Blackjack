@@ -15,7 +15,7 @@ static class Game
 
         Display.Refresh(playerHand, dealerHand);
 
-        while (!CheckGameEnded(playerHand.Total, dealerHand.Total))
+        while (!CheckGameEnded(playerHand, dealerHand))
         {
             switch (GetPlayerChoice())
             {
@@ -80,21 +80,21 @@ static class Game
 
 
     // Ugly, but I can't think of a better solution.
-    static bool CheckGameEnded(int playerTotal, int dealerTotal)
+    static bool CheckGameEnded(Hand playerHand, Hand dealerHand)
     {
         #region Win Conditions
 
-        if (playerTotal == blackjack)
+        if (playerHand.Total == blackjack)
         {
             WriteLine("\nYOU WIN! You got 21 exactly.");
             return true;
         }
-        if (playerTotal < blackjack && playerTotal > dealerTotal && dealerTotal != 0)
+        if (playerHand.Total < blackjack && playerHand.Total > dealerHand.Total && dealerHand.Total != 0)
         {
             WriteLine("\nYOU WIN! Dealer total is less and reached card limit.");
             return true;
         }
-        if (dealerTotal > blackjack)
+        if (dealerHand.Total > blackjack)
         {
             WriteLine("\nYOU WIN! Dealer busted.");
             return true;
@@ -104,12 +104,12 @@ static class Game
 
         #region Lose Conditions
 
-        if (playerTotal > blackjack)
+        if (playerHand.Total > blackjack)
         {
             WriteLine("\nYOU LOSE. You busted!");
             return true;
         }
-        if (dealerTotal <= blackjack && dealerTotal > playerTotal)
+        if (dealerHand.Total <= blackjack && dealerHand.Total > playerHand.Total)
         {
             WriteLine("\nYOU LOSE. Dealer is closer!");
             return true;
@@ -118,7 +118,7 @@ static class Game
         #endregion
 
         // Draw condition (rare)
-        if (playerTotal < blackjack && playerTotal != 0 && playerTotal == dealerTotal)
+        if (playerHand.Total < blackjack && playerHand.Total == dealerHand.Total && dealerHand.cards[4] != 0)
         {
             WriteLine("DRAW. You and the dealer have the same total.");
             return true;
