@@ -17,6 +17,7 @@ static class StackExtensions // Contained extension methods are generic because 
     {
         T[] array = [.. stack];
         rng.Shuffle(array);
-        stack = new(array);
+        stack.Clear();
+        stack.PushRange(array);
     }
 }
