@@ -1,4 +1,4 @@
-static class StackExtensions // Contained extension methods generic because why not.
+static class StackExtensions // Contained extension methods are generic because why not.
 {
     private static readonly Random rng = new();
 
@@ -17,11 +17,6 @@ static class StackExtensions // Contained extension methods generic because why 
     {
         T[] array = [.. stack];
         rng.Shuffle(array);
-        stack.Clear();
-    
-        foreach (T item in array)
-        {
-            stack.Push(item);
-        }
+        stack = new(array);
     }
 }
