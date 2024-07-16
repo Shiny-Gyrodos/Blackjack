@@ -13,11 +13,10 @@ static class StackExtensions // Contained extension methods are generic because 
     }
 
 
-    public static void Shuffle<T>(this Stack<T> stack)
+    public static Stack<T> Shuffle<T>(this Stack<T> stack)
     {
         T[] array = [.. stack];
         rng.Shuffle(array);
-        stack.Clear();
-        stack.PushRange(array);
+        return new(array);
     }
 }

@@ -24,6 +24,6 @@ class Deck
             }
         }
 
-        deck.Shuffle();
+        deck = deck.Shuffle();
     }
 }
